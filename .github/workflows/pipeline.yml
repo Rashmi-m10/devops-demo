@@ -24,6 +24,9 @@
      package:
        needs: build-test
        runs-on: ubuntu-latest
+       defaults:
+        run:
+         shell: cmd
        steps:
          - uses: actions/checkout@v4
          - name: Log in to GHCR
