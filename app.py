@@ -6,7 +6,7 @@ PrometheusMetrics(app)  # exposes /metrics
 
 @app.route("/")
 def home():
-    return "Hello from DevOps Pipeline - v1"
+    return "Hello from DevOps Pipeline - v2"
 
 @app.route("/health")
 def health():
