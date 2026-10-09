@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/Rashmi-m10/devops-demo:latest
+    image: ghcr.io/rashmi-m10/devops-demo:latest
     ports: ["5000:5000"]
     restart: always
   prometheus:

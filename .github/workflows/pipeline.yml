@@ -32,3 +32,15 @@
            run: docker build -t $IMAGE .
          - name: Push image
            run: docker push $IMAGE
+
+     deploy:
+       needs: package
+       runs-on: self-hosted
+       steps:
+         - uses: actions/checkout@v4
+         - name: Pull latest images
+           run: docker compose pull
+         - name: Start containers
+           run: docker compose up -d
+         - name: Show running containers
+           run: docker ps
