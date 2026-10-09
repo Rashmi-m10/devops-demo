@@ -1,0 +1,12 @@
+services:
+  app:
+    image: ghcr.io/Rashmi-m10/devops-demo:latest
+    ports: ["5000:5000"]
+    restart: always
+  prometheus:
+    image: prom/prometheus
+    volumes: ["./prometheus.yml:/etc/prometheus/prometheus.yml"]
+    ports: ["9090:9090"]
+  grafana:
+    image: grafana/grafana
+    ports: ["3000:3000"]
