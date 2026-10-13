@@ -1,3 +1,8 @@
+name: CI-CD Pipeline
+on:
+  push:
+    branches: [main]
+ 
 permissions:
   contents: read
   packages: write
@@ -5,7 +10,16 @@ permissions:
 env:
   IMAGE: ghcr.io/rashmi-m10/devops-demo:latest
  
-  # ...build-test job unchanged...
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: pytest -v
  
   package:
     needs: build-test
@@ -18,3 +32,19 @@ env:
         run: docker build -t $IMAGE .
       - name: Push image
         run: docker push $IMAGE
+ 
+  deploy:
+    needs: package
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: cmd
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull latest images
+        run: docker compose pull
+      - name: Start containers
+        run: docker compose up -d
+      - name: Show running containers
+        run: docker ps
+
