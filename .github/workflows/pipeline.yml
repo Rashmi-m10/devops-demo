@@ -3,7 +3,7 @@ permissions:
   packages: write
  
 env:
-  IMAGE: ghcr.io/yourusername/devops-demo:latest
+  IMAGE: ghcr.io/rashmi-m10/devops-demo:latest
  
   # ...build-test job unchanged...
  
