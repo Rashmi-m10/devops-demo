@@ -1,16 +1,20 @@
-name: CI-CD Pipeline
-on:
-  push:
-    branches: [main]
+permissions:
+  contents: read
+  packages: write
  
-jobs:
-  build-test:
+env:
+  IMAGE: ghcr.io/rashmi-m10/devops-demo:latest
+ 
+  # ...build-test job unchanged...
+ 
+  package:
+    needs: build-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install -r requirements.txt
-      - run: pytest -v
-
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Build image
+        run: docker build -t $IMAGE .
+      - name: Push image
+        run: docker push $IMAGE
